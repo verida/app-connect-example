@@ -19,7 +19,7 @@ You can then select the scopes you wish to access and click the `Connect Verida`
 
 The connection flow is as follows:
 
-1. Generate an authentication request URL that includes the requested `scopes` and `redirectUrl`
+1. Generate an authentication request URL that includes the requested `scopes` and `redirectUrl` (your application page that handles a successful authentication request)
 2. Redirect the user to the authentication request URL
 3. If the user grants access, they are returned to your application with `auth_roken` in the query parameters
 4. Save the `auth_token` in the local browser or your own database against the user account
@@ -45,7 +45,7 @@ $.get({
 })
 ```
 
-It's possible to obtain a list of scopes from the [/auth/scopes](https://github.com/verida/app-connect-example/blob/4b84dbae49862c343029dc633b14d056b3db9992/src/main.ts#L136) endpoint:
+It's possible to obtain a list of scopes from the `/auth/scopes` endpoint:
 
 ```ts
 $.get({
