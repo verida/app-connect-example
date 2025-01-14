@@ -10,9 +10,26 @@
 </head>
 <body>
   <div class="container mt-5">
-    <h1 class="text-center text-primary">App Connect Example</h1>
-    <button id="connectButton" class="btn btn-primary">Connect Verida</button>
-    <div id="content"></div>
+    <h1 class="text-center text-primary">Connect to Verida Example</h1>
+    <div id="scopes">
+      <h3>Available scopes</h3>
+      <!-- Container where checkboxes will be injected via JS -->
+      <div id="scopeContainer"></div>
+    </div>
+    <div id="connect" class="row">
+      <hr />
+      <div>
+        <button id="connectButton" class="btn btn-primary">Connect Verida</button>
+      </div>
+      <div>
+        <p>Connect URL:</p>
+        <p id="connect-url"></p>
+      </div>
+    </div>
+    <div class="row">
+      <hr />
+      <div id="response"></div>
+    </div>
   </div>
   <!-- Webpack bundle -->
   <script src="dist/bundle.js"></script>

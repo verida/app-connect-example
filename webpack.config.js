@@ -26,7 +26,9 @@ module.exports = {
     }),
   ],
   devServer: {
-    static: false, // Disable static file serving since HtmlWebpackPlugin handles it
+    static: {
+      directory: path.join(__dirname, 'assets')
+    },
     port: 8080, // Specify the port
     open: true, // Automatically open the browser
   },
