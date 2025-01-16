@@ -27,7 +27,7 @@ function buildConnectUrl() {
   redirectUrl.searchParams.append('redirectUrl', RETURN_URL)
 
   if (REQUESTING_DID) {
-    redirectUrl.searchParams.append('scopes', REQUESTING_DID)
+    redirectUrl.searchParams.append('appDID', REQUESTING_DID)
   }
 
   return redirectUrl.toString()
@@ -104,7 +104,7 @@ function populateScopes(scopes: any[]) {
 
 // Example usage
 $('#connectButton').on('click', () => {
-  window.location.href = buildConnectUrl()  
+  window.location.href = buildConnectUrl()
 });
 
 $(() => {
@@ -115,7 +115,7 @@ $(() => {
     console.log('Have an auth token! Fetching some data')
     $("#connect").hide()
     $("#scopes").hide()
-  
+
     // perform a universal search
     $.get({
       url: `${API_ENDPOINT}/search/universal?keywords=meeting+agenda`,
