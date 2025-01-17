@@ -4,14 +4,15 @@ import $ from 'jquery';
 
 const DEFAULT_SCOPES = ["api:ds-query", "api:llm-agent-prompt", "api:llm-profile-prompt", "api:search-universal", "ds:social-email"]
 
-// Web Vault OAuth Endpoint
-const AUTH_ENDPOINT = 'http://localhost:3000/oauth'
+// Web Vault Auth page, where to redirect the user to consent
+const VAULT_WEB_APP_AUTH_PAGE_URL = 'https://app.verida.network/auth' // To use the deployed vault web app
+// const VAULT_WEB_APP_AUTH_PAGE_URL = 'http://localhost:3000/auth' // To use a locally running vault web app
 
-// This app
-const RETURN_URL = "http://localhost:8080/"
+// This app, to receive the auth token
+const RETURN_URL = "http://localhost:8080"
 
-// DCS API endpoint
-const API_ENDPOINT = "https://localhost:5021/api/rest/v1"
+// Data API base URL to fetch the list of scopes and test the auth token
+const VERIDA_DATA_API_BASE_URL = "https://127.0.0.1:5021"
 
 // Optional: Specify a DID representing your application to display an icon and your application name
 const REQUESTING_DID = undefined
@@ -19,18 +20,18 @@ const REQUESTING_DID = undefined
 let selectedScopes: string[] = []
 
 function buildConnectUrl() {
-  const redirectUrl = new URL(AUTH_ENDPOINT)
+  const authPageUrl = new URL(VAULT_WEB_APP_AUTH_PAGE_URL)
   for (const scope of selectedScopes) {
-    redirectUrl.searchParams.append('scopes', scope)
+    authPageUrl.searchParams.append('scopes', scope)
   }
 
-  redirectUrl.searchParams.append('redirectUrl', RETURN_URL)
+  authPageUrl.searchParams.append('redirectUrl', RETURN_URL)
 
   if (REQUESTING_DID) {
-    redirectUrl.searchParams.append('appDID', REQUESTING_DID)
+    authPageUrl.searchParams.append('appDID', REQUESTING_DID)
   }
 
-  return redirectUrl.toString()
+  return authPageUrl.toString()
 }
 
 function populateScopes(scopes: any[]) {
@@ -118,7 +119,7 @@ $(() => {
 
     // perform a universal search
     $.get({
-      url: `${API_ENDPOINT}/search/universal?keywords=meeting+agenda`,
+      url: `${VERIDA_DATA_API_BASE_URL}/api/rest/v1/search/universal?keywords=meeting+agenda`,
       headers: {
         Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json"
@@ -134,7 +135,7 @@ $(() => {
     })
   } else {
     $.get({
-      url: `${API_ENDPOINT}/auth/scopes`,
+      url: `${VERIDA_DATA_API_BASE_URL}/api/rest/v1/auth/scopes`,
       success: (response) => {
         console.log(response)
         populateScopes(response.scopes)
