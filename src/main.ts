@@ -17,6 +17,10 @@ const VERIDA_DATA_API_BASE_URL = "https://127.0.0.1:5021"
 // Optional: Specify a DID representing your application to display an icon and your application name
 const REQUESTING_DID = undefined
 
+const state = {
+  // Whatever you store in the state will be passed back to your application in the same `state` query param on the redirection after the auth flow
+}
+
 let selectedScopes: string[] = []
 
 function buildConnectUrl() {
@@ -29,6 +33,10 @@ function buildConnectUrl() {
 
   if (REQUESTING_DID) {
     authPageUrl.searchParams.append('appDID', REQUESTING_DID)
+  }
+
+  if (state) {
+    authPageUrl.searchParams.append('state', JSON.stringify(state))
   }
 
   return authPageUrl.toString()
